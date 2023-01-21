@@ -1,17 +1,14 @@
 class Board
   
-  attr_reader :tiles, :go, :property
+  attr_reader :tiles
 
   def initialize(tiles)
-    @go = []
-    @property = []
-    @tiles = @go + @property
+    @tiles = tiles
+    @players = players
+  end
+
+  def to_s
+    "This monopoly board contains #{@tiles.count} tiles"
   end
 
 end
-
-# go = [0]
-# property = (1..8).to_a
-# tiles = go + property
-
-# puts tiles
