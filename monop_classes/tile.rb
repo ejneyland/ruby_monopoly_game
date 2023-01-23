@@ -1,5 +1,5 @@
 class Tile
-  attr_accessor :name, :value, :type, :colour
+  attr_accessor :name, :value, :type, :colour, :owner, :occup_players
 
   def initialize(tile_data)
     @name = tile_data["name"]
@@ -7,11 +7,20 @@ class Tile
     @type = tile_data["type"]
     @colour = tile_data["colour"]
     @owner = []
-    occup_players = []
+    @occup_players = []
   end
 
+  def to_s
+    case type
+    when "property"
+      Rainbow("#{name}, #{colour} #{type.capitalize}, Value: $#{value}").orange
+    when "go"
+      Rainbow("#{name}, Value: $#{value}").green
+    end  
+  end
 
   def enter(player, action)
+    
   end
 
   private

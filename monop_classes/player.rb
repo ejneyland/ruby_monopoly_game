@@ -1,10 +1,11 @@
 class Player
-  attr_accessor :name, :money, :owned_prop
+  attr_accessor :name, :money, :owned_prop, :position
 
   def initialize(name)
     @name = name
     @money = 16
     @owned_prop = []
+    @position = 0
   end
 
   def to_s
