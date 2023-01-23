@@ -52,7 +52,9 @@ def play_game(board, game_num, players, game_turns)
     
     current_tile = board.tiles[player.position]
 
+    # declares each players turn: dice roll, new position, tile name
     puts "#{player.name} rolled a #{roll} and moved to tile #{player.position}, #{board.tiles[player.position].name}"
+    # declares whether a property was bought or rented
     board.buy_or_rent(current_tile, player)
 
     if player.money <= 0 # checking players money balance
@@ -67,6 +69,7 @@ def play_game(board, game_num, players, game_turns)
     game_turns.push(turn)
   end
   puts "----------------------------------------"
+  # declaration of winner and the first bankrupt player
   winner = players.max_by(&:money)
   loser = board.bankrupt_players[0]
   puts Rainbow("#{loser.name} went bankrupt, owning #{loser.owned_prop.count} properties, so...").red
