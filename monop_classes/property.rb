@@ -1,7 +1,6 @@
 class Property
 
-  attr_reader :position, :name, :colour, :type
-  attr_accessor :price
+  attr_accessor :position, :name, :price, :colour, :type
 
   def initialize
     @position = position

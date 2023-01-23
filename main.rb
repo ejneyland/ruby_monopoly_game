@@ -1,7 +1,7 @@
 require_relative './methods'
 require_relative './monop_classes/board'
+require_relative './monop_classes/tile'
 require_relative './monop_classes/player'
-require_relative './monop_classes/property'
 
 require 'json'
 require 'rainbow'
@@ -9,8 +9,9 @@ require 'tty-prompt'
 
 # loading monopoly board from board.json
 file = File.read('./board.json')
-tiles = JSON.parse(file)
-board = Board.new(tiles)
+tiles_data = JSON.parse(file) # 1 go tile, 8 properties
+tiles = tiles_data.map { |tile_data| Tile.new(tile_data) }
+board = Board.new("Woven Monopoly", tiles)
 
 # loading dice rolls for game one
 file_one = File.read('./rolls_1.json')
@@ -28,26 +29,46 @@ players = [
   sweedal = Player.new("Sweedal")
 ]
 
-def menu
-  prompt = TTY::Prompt.new
-  
-  choices = [
-    {name: "Play Game 1", value: 1},
-    {name: "Play Game 2", value: 2},
-    {name: "Exit", value: 3}
-  ]
-  selection = prompt.select("Please select an option..", choices)
-  
-  case selection
-  when 1
-    who_wins
-  when 2
-    who_wins
-  when 3
-    puts Rainbow("exiting application...").yellow
-  end
+GameTurn = Struct.new(:player, :dice_roll)
+game_turns = []
 
+def play_game(game_num, players, game_turns)
+  game_num.each do |roll|
+    # take first player from array
+    player = players.shift
+    turn = GameTurn.new(player, roll)
+
+    puts "#{player.name} rolled a #{roll}"
+    # re-queue player at end of array
+    players.push(player)
+
+    game_turns.push(turn)
+  end
 end
 
-# title
-# menu
+prompt = TTY::Prompt.new
+
+title
+
+choices = [
+  {name: "View Board", value: 1},
+  {name: "Play Game 1", value: 2},
+  {name: "Play Game 2", value: 3},
+  {name: "Exit", value: 4}
+]
+selection = prompt.select("Please select an option..", choices)
+
+case selection
+when 1
+  puts board
+when 2
+  who_wins(players)
+  play_game(game_one, players, game_turns)
+  puts players
+when 3
+  who_wins(players)
+  play_game(game_two, players, game_turns)
+  puts players
+when 4
+  puts Rainbow("exiting application...").yellow
+end
