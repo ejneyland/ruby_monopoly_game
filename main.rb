@@ -29,9 +29,11 @@ players = [
   sweedal = Player.new("Sweedal")
 ]
 
+# pairing each dice roll with the sequential player order
 GameTurn = Struct.new(:player, :dice_roll)
 game_turns = []
 
+# game script
 def play_game(board, game_num, players, game_turns)
   game_num.each do |roll|
     # take first player from array
@@ -39,6 +41,7 @@ def play_game(board, game_num, players, game_turns)
     turn = GameTurn.new(player, roll)
     last_tile_index = board.no_of_tiles - 1
 
+    # determines a player's position on board following dice roll
     if player.position + roll <= last_tile_index # less than / equal to 8
       player.position += roll
     elsif player.position + roll > last_tile_index # greater than 8
@@ -47,18 +50,33 @@ def play_game(board, game_num, players, game_turns)
       raise "Unknown tile position"
     end
     
-    puts "#{player.name} rolled a #{roll} and moved to tile #{player.position}"
+    current_tile = board.tiles[player.position]
+
+    puts "#{player.name} rolled a #{roll} and moved to tile #{player.position}, #{board.tiles[player.position].name}"
+    board.buy_or_rent(current_tile, player)
+
+    if player.money <= 0 # checking players money balance
+      player.bankrupt = true # declaring a bankrupt player
+      board.bankrupt_players << player
+      board.winner = true # declaring a winner
+      break # ending the loop
+    end
+
     # re-queue player at end of array
     players.push(player)
     game_turns.push(turn)
   end
   puts "----------------------------------------"
+  winner = players.max_by(&:money)
+  loser = board.bankrupt_players[0]
+  puts Rainbow("#{loser.name} went bankrupt, owning #{loser.owned_prop.count} properties, so...").red
+  puts Rainbow("The winner is #{winner.name}!").green
 end
 
 prompt = TTY::Prompt.new
 
 title
-
+# main menu of command line application
 choices = [
   {name: "View Board", value: 1},
   {name: "Play Game 1", value: 2},
@@ -68,17 +86,17 @@ choices = [
 selection = prompt.select("Please select an option..", choices)
 
 case selection
-when 1
+when 1 # view the tiles of the Woven Monopoly board
   puts board
   puts board.tiles
-when 2
+when 2 # plays game 1
   who_wins(players)
   play_game(board, game_one, players, game_turns)
   puts players
-when 3
+when 3 # plays game 2
   who_wins(players)
   play_game(board, game_two, players, game_turns)
   puts players
-when 4
+when 4 # exits the application 
   puts Rainbow("exiting application...").yellow
 end

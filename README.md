@@ -1,3 +1,34 @@
+
+Ethan Neyland, Code Test for Pronto Woven
+
+WOVEN MONOPOLY
+
+### Installation and App Launch Instructions
+
+1. If you don't already have one, download a terminal emulator such as Visual Studio Code
+   - Mac: https://code.visualstudio.com/docs/setup/mac
+   - Windows: https://code.visualstudio.com/docs/setup/windows
+   - Linux: https://code.visualstudio.com/docs/setup/linux 
+
+2. Download Ruby 
+   - Install instructions: https://www.ruby-lang.org/en/documentation/installation/
+
+3. Download bundler gem
+   - Install instructions: https://bundler.io 
+   - Enter ```gem install bundler``` in terminal
+
+4. Clone repository to your computer
+    - Clone repository instructions: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+
+5. Install the gems used by the application
+   - Enter ```bundle install``` in terminal
+   - Gems installed should include: rainbow, tty-prompt, json and rspec
+
+6. Launch the app
+   - Enter ```ruby main.rb``` in terminal
+
+---
+
 ## Woven coding test
 
 Your task is to write an application to play the game of Woven Monopoly.

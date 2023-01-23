@@ -19,10 +19,6 @@ class Tile
     end  
   end
 
-  def enter(player, action)
-    
-  end
-
   private
 
   def calc_value(tile_data)
