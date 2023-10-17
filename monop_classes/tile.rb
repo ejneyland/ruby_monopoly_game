@@ -1,9 +1,11 @@
 class Tile
   attr_accessor :name, :value, :type, :colour, :owner, :occup_players
 
+  # by passing tile_data as an argument, class attributes are able to be located and initialized
+  # from the key-value pairs of objects in the board.json
   def initialize(tile_data)
-    @name = tile_data["name"]
-    @value = calc_value(tile_data)
+    @name = tile_data["name"] # searches tile_data objects for the ["key"] value
+    @value = calc_value(tile_data) # labeled value, not price, for better readability / usability 
     @type = tile_data["type"]
     @colour = tile_data["colour"]
     @owner = []

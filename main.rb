@@ -9,9 +9,9 @@ require 'tty-prompt'
 
 # loading monopoly board from board.json
 file = File.read('./board.json')
-tiles_data = JSON.parse(file) # 1 go tile, 8 properties
-tiles = tiles_data.map { |tile_data| Tile.new(tile_data) }
-board = Board.new("Woven Monopoly", tiles)
+tiles_data = JSON.parse(file) # 1 GO tile, 8 properties (array of objects, tiles)
+tiles = tiles_data.map { |tile_data| Tile.new(tile_data) } # creates class instance for each tile object
+board = Board.new("Woven Monopoly", tiles) # creates a board, containing tiles and has a name
 
 # loading dice rolls for game one
 file_one = File.read('./rolls_1.json')
@@ -41,11 +41,13 @@ def play_game(board, game_num, players, game_turns)
     turn = GameTurn.new(player, roll)
     last_tile_index = board.no_of_tiles - 1
 
+    # /// further modularise ///
     # determines a player's position on board following dice roll
     if player.position + roll <= last_tile_index # less than / equal to 8
       player.position += roll
     elsif player.position + roll > last_tile_index # greater than 8
       player.position = (player.position + roll) % board.no_of_tiles
+      # potential objective resolve HERE - player receives the value of GO tile if their position is tile 0 or above after roll
     else
       raise "Unknown tile position"
     end
@@ -57,6 +59,7 @@ def play_game(board, game_num, players, game_turns)
     # declares whether a property was bought or rented
     board.buy_or_rent(current_tile, player)
 
+    # /// further modularise ///
     if player.money <= 0 # checking players money balance
       player.bankrupt = true # declaring a bankrupt player
       board.bankrupt_players << player
