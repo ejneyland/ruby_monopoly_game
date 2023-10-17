@@ -1,6 +1,14 @@
 ## MONOPOLY GAME, Code Test
 Ethan Neyland
 
+This document contains:
+- Installation and Launch Instructions
+- Introduction
+- Game Rules
+- Code Test outline / objectives
+
+---
+
 ### Installation and App Launch Instructions
 
 1. If you don't already have one, download a terminal emulator such as Visual Studio Code
@@ -17,6 +25,7 @@ Ethan Neyland
 
 4. Clone repository to your computer
     - Clone repository instructions: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+    - https clone URL: https://github.com/ejneyland/ruby_monopoly_game.git
 
 5. Install the gems used by the application
    - Enter ```bundle install``` in terminal
